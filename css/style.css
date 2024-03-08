@@ -112,8 +112,19 @@ legend {
   display: block;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 header {
   border-bottom: 1px solid #82898B;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: #F2F3F7;
 }
 
 .header__adaptive {
@@ -166,6 +177,10 @@ header {
 .header__adaptive {
   padding: 0;
   position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  max-width: 1440px;
 }
 
 .header__adaptive .header__inner {
@@ -635,6 +650,8 @@ header {
 }
 
 .footer__inner {
+  max-width: 1440px;
+  margin: 0 auto;
   background-image: linear-gradient(to right bottom, #FAAF00 0%, #FA6400 70%);
   padding: 60px 64px 38px;
 }
@@ -722,6 +739,8 @@ header {
 }
 
 main {
+  max-width: 1440px;
+  margin: 0 auto;
   padding-top: 100px;
   margin-bottom: 88px;
 }
@@ -931,6 +950,8 @@ main {
 }
 
 .tariffs {
+  max-width: 1440px;
+  margin: 0 auto;
   margin-bottom: 220px;
   position: relative;
 }
@@ -1176,6 +1197,8 @@ main {
 }
 
 .application {
+  max-width: 1440px;
+  margin: 0 auto;
   margin-bottom: 220px;
 }
 
@@ -1264,6 +1287,8 @@ main {
 }
 
 .services__list {
+  max-width: 1440px;
+  margin: 0 auto;
   margin-bottom: 220px;
   position: relative;
 }
@@ -1351,6 +1376,8 @@ main {
 }
 
 .stock {
+  max-width: 1440px;
+  margin: 0 auto;
   margin-bottom: 220px;
   position: relative;
 }
@@ -1508,6 +1535,8 @@ main {
 }
 
 .connection {
+  max-width: 1440px;
+  margin: 0 auto;
   position: relative;
 }
 
@@ -1640,8 +1669,6 @@ html {
 }
 
 body {
-  max-width: 1440px;
-  margin: 0 auto;
   color: #333;
 }
 
@@ -1884,6 +1911,39 @@ footer {
 .rotate {
   transform: rotate(-180deg);
   transition: all 0.3s ease-in-out;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: #F2F3F7;
+  color: #333;
+}
+
+.wrapper {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex: 0 0 auto;
+}
+
+.container {
+  max-width: 1312px;
+  margin: 0 auto;
 }
 
 @media only screen and (max-width: 1400px) {
