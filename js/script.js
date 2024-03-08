@@ -154,15 +154,26 @@ function closeAllDropdowns() {
   $('.dropdown__link img').removeClass("rotate_row"); // Удаляем класс rotate_row у всех изображений
  }
  
- // Обработчик для всех выпадающих списков
  function toggleDropdown(dropdownId, contentId) {
   $(dropdownId).click(function(event) {
-     event.stopPropagation(); // Предотвращаем всплытие события
-     closeAllDropdowns(); // Закрываем все выпадающие списки перед открытием нового
-     $(contentId).slideToggle("fast"); // Плавное открытие/закрытие содержимого
-     $(dropdownId + ' img').toggleClass("rotate_row"); // Вращение изображения
+     event.stopPropagation(); // Prevent event bubbling
+     closeAllDropdowns(); // Close all dropdowns before opening a new one
+ 
+     // Check if the dropdown content is currently visible
+     if ($(contentId).is(':visible')) {
+       // If visible, slide it up (close it)
+       $(contentId).slideUp("fast");
+       // Remove the rotate_row class from the dropdown link's image
+       $(dropdownId + ' img').removeClass("rotate_row");
+     } else {
+       // If not visible, slide it down (open it)
+       $(contentId).slideDown("fast");
+       // Add the rotate_row class to the dropdown link's image
+       $(dropdownId + ' img').addClass("rotate_row");
+     }
   });
  }
+ 
  
  // Привязка обработчиков к конкретным элементам
  toggleDropdown("#cityDropdown", "#cityContent");
