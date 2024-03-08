@@ -37,6 +37,46 @@ var swiper = new Swiper(".mainSwiper", {
      }
 });
 
+
+
+var swiper = new Swiper(".mainSwiperApartment", {
+  slidesPerView: 4,
+  slidesPerGroup: 4,
+  loop: true,
+      spaceBetween: 30,
+      grabCursor: true,
+      pagination: {
+        el: ".mainSwiperApartment-swiper-pagination",
+        clickable: true,
+      },
+
+      navigation: {
+        nextEl: ".mainSwiperApartment-next",
+        prevEl: ".mainSwiperApartment-prev",
+      },
+      breakpoints: {
+        
+        1400: {
+          slidesPerView: 4,
+          slidesPerGroup: 4,
+        },
+
+        992: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
+        },
+        768: {
+          slidesPerView: 2,
+          slidesPerGroup: 2,
+        },
+
+        0: {
+          slidesPerView: 1,
+          slidesPerGroup: 1,
+        },
+     }
+});
+
 var swiper = new Swiper(".servicesSwiper", {
   slidesPerView: 1,
   slidesPerGroup: 1,
@@ -108,38 +148,43 @@ $(document).click(function() {
 
 
 
-
- $(".dropdown__link-selector").click(function(event) {
-  event.stopPropagation(); // Предотвращает закрытие выпадающего списка при клике на ссылку
-  $(".dropdown__content-selector").slideToggle("fast");
-  $('.dropdown__link-selector  img').toggleClass("rotate_row");
- });
+// Функция для закрытия всех выпадающих списков
+function closeAllDropdowns() {
+  $(".dropdown__content").slideUp("fast");
+  $('.dropdown__link img').removeClass("rotate_row"); // Удаляем класс rotate_row у всех изображений
+ }
  
+ // Обработчик для всех выпадающих списков
+ function toggleDropdown(dropdownId, contentId) {
+  $(dropdownId).click(function(event) {
+     event.stopPropagation(); // Предотвращаем всплытие события
+     closeAllDropdowns(); // Закрываем все выпадающие списки перед открытием нового
+     $(contentId).slideToggle("fast"); // Плавное открытие/закрытие содержимого
+     $(dropdownId + ' img').toggleClass("rotate_row"); // Вращение изображения
+  });
+ }
+ 
+ // Привязка обработчиков к конкретным элементам
+ toggleDropdown("#cityDropdown", "#cityContent");
+ toggleDropdown("#servicesDropdown", "#servicesContent");
+ toggleDropdown("#supportDropdown", "#supportContent");
+ 
+ // Обработчик клика вне выпадающих списков
  $(document).click(function() {
-  $(".dropdown__content-selector").slideUp("fast"); // Закрывает выпадающий список при клике вне его области
- 
- });
-
- $(".dropdown__link").click(function(event) {
-  event.stopPropagation(); // Предотвращает закрытие выпадающего списка при клике на ссылку
-  $(".dropdown__content").slideToggle("fast");
-  $('.dropdown__link  img').toggleClass("rotate_row");
+  closeAllDropdowns(); // Закрываем все выпадающие списки при клике вне их области
  });
  
- $(document).click(function() {
-  $(".dropdown__content").slideUp("fast"); // Закрывает выпадающий список при клике вне его области
- 
- });
-
- $('.dropdown__content-selector p').click(function() {
-  // Get the text of the clicked p element
+ // Обработчик выбора элемента из выпадающего списка
+ $('.dropdown__content a').click(function() {
   var selectedText = $(this).text();
-  
-  // Set the text of the dropdown__link-selector to the text of the clicked p element
-  $('.selected__direction').text(selectedText);
-});
+  $(this).closest('.dropdown__link').find('.nav__link').text(selectedText);
+ });
+ 
+
+ 
 
 
+ 
 
 // document.querySelector('.consultation__form').addEventListener('submit', function(event) {
 //     event.preventDefault();
@@ -274,4 +319,216 @@ function toggleAccordion(element) {
        });
   });
  });
+
+ document.querySelector('.mainSwiper').style.display = 'none';
+ document.querySelector('.mainSwiper').style.display = 'none';
+ document.getElementById('apartmentsBtn').style.backgroundImage = 'linear-gradient(to right bottom, #FAAF00 0%, #FA6400 70%)';
+ document.querySelector('.slider__navigationHouses').style.display = 'none';
+//  document.getElementById('housesBtn').style.border = '1px solid #424446';  
+document.getElementById('housesBtn').classList.add('tarif__border');
  
+ document.getElementById('apartmentsBtn').addEventListener('click', function() {
+  // Скрываем слайдер домов, показываем слайдер квартир
+  document.querySelector('.mainSwiper').style.display = 'none';
+  document.querySelector('.mainSwiperApartment').style.display = 'flex';
+  document.querySelector('.slider__navigationApartment').style.display = 'flex';
+  document.querySelector('.slider__navigationHouses').style.display = 'none';
+ 
+  // Изменяем градиент фона для кнопки квартир и цвет текста
+  this.style.backgroundImage = 'linear-gradient(to right bottom, #FAAF00 0%, #FA6400 70%)';
+  this.style.color = '#fff'; // Белый цвет текста для кнопки с градиентом
+  // this.style.border = '';
+  this.classList.remove('tarif__border');
+  document.getElementById('housesBtn').style.backgroundImage = ''; // Сбрасываем градиент для кнопки домов
+  document.getElementById('housesBtn').style.color = '#000'; // Черный цвет текста для кнопки без градиента
+  // document.getElementById('housesBtn').style.border = '1px solid #424446';  
+  document.getElementById('housesBtn').classList.add('tarif__border');
+});
+ 
+ document.getElementById('housesBtn').addEventListener('click', function() {
+  // Скрываем слайдер квартир, показываем слайдер домов
+  document.querySelector('.mainSwiperApartment').style.display = 'none';
+  document.querySelector('.slider__navigationHouses').style.display = 'flex';
+  document.querySelector('.slider__navigationApartment').style.display = 'none';
+  document.querySelector('.mainSwiper').style.display = 'flex';
+ 
+  // Изменяем градиент фона для кнопки домов и цвет текста
+  this.style.backgroundImage = 'linear-gradient(to right bottom, #FAAF00 0%, #FA6400 70%)';
+  // this.style.border = ''; 
+  this.classList.remove('tarif__border');
+  this.style.color = '#fff'; // Белый цвет текста для кнопки с градиентом
+  document.getElementById('apartmentsBtn').style.backgroundImage = ''; // Сбрасываем градиент для кнопки квартир
+  document.getElementById('apartmentsBtn').style.color = '#000'; // Черный цвет текста для кнопки без градиента
+  // document.getElementById('apartmentsBtn').style.border = '1px solid #424446'; 
+  document.getElementById('apartmentsBtn').classList.add('tarif__border');
+});
+ 
+ 
+
+
+
+
+
+// Получаем все элементы tariffs__card
+var tariffCards = document.querySelectorAll('.tariffs__card');
+
+// Пройдемся по каждому элементу tariffs__card
+tariffCards.forEach(function(tariffCard, tariffIndex) {
+    // Получаем все элементы input с классом custom-checkbox внутри текущего tariffs__card
+    var checkboxes = tariffCard.querySelectorAll('.custom-checkbox');
+
+    // Пройдемся по каждому из этих элементов
+    checkboxes.forEach(function(checkbox, checkboxIndex) {
+        // Генерируем уникальный идентификатор, используя индексы tariffs__card и checkbox
+        var uniqueId = 'tariff' + tariffIndex + 'Checkbox' + checkboxIndex;
+        
+        // Применяем уникальный идентификатор к атрибуту id элемента input
+        checkbox.id = uniqueId;
+        
+        // Получаем следующий элемент после input, который должен быть label
+        var nextElement = checkbox.nextElementSibling;
+        
+        // Проверяем, является ли следующий элемент label
+        if (nextElement && nextElement.tagName.toLowerCase() === 'label') {
+            // Применяем уникальный идентификатор к атрибуту for label
+            nextElement.setAttribute('for', uniqueId);
+        }
+    });
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const checkboxes = document.querySelectorAll('.tariffs__card-checkbox input[type="checkbox"]');
+ 
+  function handleCheckboxChange(event) {
+     const checkbox = event.target;
+     const checkboxContainer = checkbox.closest('.tariffs__card-checkbox');
+     const priceContainer = checkboxContainer.closest('.tariffs__card-inner').querySelector('.tariffs__card-price__number p');
+     const priceSpans = checkboxContainer.querySelectorAll('.tariffs__card-checkbox__text span');
+ 
+     let basePrice = parseInt(priceContainer.textContent, 10);
+     let connectionPrice = 0;
+ 
+     priceSpans.forEach(span => {
+       const priceText = span.textContent;
+       const priceMatch = priceText.match(/(\d+) руб\./);
+ 
+       if (priceMatch) {
+         const price = parseInt(priceMatch[1], 10);
+         if (priceText.includes('подключение')) {
+           connectionPrice = price;
+         } else {
+           basePrice += checkbox.checked ? price : -price;
+         }
+       }
+     });
+ 
+     console.log(connectionPrice);
+ 
+     priceContainer.textContent = basePrice;
+     // Выбираем элемент span с ценой подключения только внутри текущей карточки тарифа
+     const tariffsCardInner = checkboxContainer.closest('.tariffs__card-inner');
+     const connectionPriceSpans = tariffsCardInner.querySelectorAll('.tariffs__card-price span');
+     const connectionPriceSpan = connectionPriceSpans[connectionPriceSpans.length - 1]; // Последний элемент
+     console.log(connectionPriceSpan);
+     if (connectionPriceSpan) {
+       const currentConnectionPrice = parseInt(connectionPriceSpan.textContent.replace(' руб.', ''), 10);
+       const newConnectionPrice = checkbox.checked ? currentConnectionPrice + connectionPrice : currentConnectionPrice - connectionPrice;
+       connectionPriceSpan.textContent = newConnectionPrice + ' руб.';
+     }
+  }
+ 
+  checkboxes.forEach(function(checkbox) {
+     checkbox.addEventListener('change', handleCheckboxChange);
+  });
+ });
+ 
+ 
+ 
+
+ document.addEventListener("DOMContentLoaded", function() {
+  var btn = document.getElementById("theme-button");
+  var link = document.getElementById("theme-link");
+  console.log(btn);
+  console.log(link);
+
+  btn.addEventListener("click", function () { ChangeTheme(); });
+
+  function ChangeTheme() {
+      let lightTheme = "css/light.css";
+      let darkTheme = "css/dark.css";
+
+      var currTheme = link.getAttribute("href");
+      var theme = "";
+
+      if(currTheme == lightTheme) {
+          currTheme = darkTheme;
+          theme = "dark";
+      } else {    
+          currTheme = lightTheme;
+          theme = "light";
+      }
+
+      link.setAttribute("href", currTheme);
+
+      // Save(theme);
+  }
+});
+
+
+var isSunActive = true; // Переменная для отслеживания активного изображения
+
+document.getElementById('theme-button').addEventListener('click', function() {
+    var sun = document.querySelector('.sun');
+    var moon = document.querySelector('.moon');
+
+    // Определяем, какое изображение активно и выполняем соответствующую анимацию
+    if (isSunActive) {
+        // Если солнце активно, анимируем его выход вправо и вход луны слева
+        sun.style.animation = 'rotateOutRight 0.5s forwards';
+        moon.style.animation = 'rotateInLeft 0.5s forwards';
+        isSunActive = false; // Обновляем состояние переменной
+    } else {
+        // Если луна активна, анимируем её выход влево и вход солнца справа
+        moon.style.animation = 'rotateOutLeft 0.5s forwards';
+        sun.style.animation = 'rotateInRight 0.5s forwards';
+        isSunActive = true; // Обновляем состояние переменной
+    }
+});
+
+
+$(document).ready(function() {
+  $(".close__popup").click(function() {
+      $("#overlay").fadeOut(); // Плавное исчезновение
+      $("#overlay__application").fadeOut(); // Плавное исчезновение
+
+  });
+
+  $(".change__city-button__agree").click(function() {
+    $('.change__city').hide();
+  });
+
+  $(".change__city-button__change").click(function() {
+    $('.change__city').hide();
+    $('#overlay').css('display', 'flex');
+  });
+
+  $(".header__city-selector").click(function() {
+    $('.change__city').show();
+  });
+
+  
+  $(".tariffs__card-button").click(function() {
+    $('#overlay__application').css('display', 'flex');
+  });
+
+  $(".popup__button-wrepper .button").click(function() {
+    $('.popup__form-inner__writing').hide();
+    $('.popup__form-inner__done').show();
+  });
+
+
+});
+

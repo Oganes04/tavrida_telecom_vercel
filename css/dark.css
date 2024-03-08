@@ -1,0 +1,93 @@
+body {
+    background-color: #161616;
+}
+
+.nav .nav__link, 
+.offer__description-text p, 
+.tariffs__header h2, 
+.tariffs__card-inner, 
+.services__list-header h2, 
+.services__list-text p, 
+.questions__header h2, 
+.application__text, 
+.application__inner .form__button-input p, 
+.stock__text, 
+.connection__text p, 
+.form__checkbox.form__checkbox-static p, 
+.form__checkbox.form__checkbox-adaptive p, 
+.services__list-item__text, 
+.services__list-item__link, 
+.slide__item-servicesHeader p, 
+.slide__item-servicesPrice p, 
+.header__city-selector p
+ {
+    color: #fff;
+}
+
+.tariffs__card-price__number svg path {
+    fill: #fff;
+}
+
+.tariffs__card-price__number svg rect {
+    fill: #fff;
+}
+
+.prev circle {
+    stroke: #fff;
+}
+
+.prev g path {
+    stroke: #fff;
+}
+
+.mainSwiperApartment-prev circle {
+    stroke: #fff;
+}
+
+.mainSwiperApartment-prev g path {
+    stroke: #fff;
+}
+
+.services__inner-text {
+    color: #fff;
+}
+
+.application__inner,
+.stock__inner,
+.connection__inner {
+    background-color: #383839;
+}
+
+.services__list-item {
+    background-color: #1C1C1C;
+    border: 1px solid #fff;
+}
+
+
+.services__list-item__link svg path {
+    stroke: #fff;
+}
+
+.slide {
+    background-color: #1C1C1C;
+}
+
+.slide__item-services {
+    border: 1px solid #fff;
+}
+
+.circle-text svg path:nth-of-type(n+7) {
+    fill: #fff;
+}
+
+.logo__rad {
+    fill: #fff;
+}
+
+.tarif__border {
+    border: 1px solid #fff;
+}
+
+#apartmentsBtn, #housesBtn  {
+    color: #fff !important;
+}
