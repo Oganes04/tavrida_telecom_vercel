@@ -3,6 +3,7 @@ var swiper = new Swiper(".mainSwiper", {
   slidesPerView: 4,
   slidesPerGroup: 4,
   loop: true,
+  
       spaceBetween: 30,
       grabCursor: true,
       pagination: {
@@ -43,6 +44,7 @@ var swiper = new Swiper(".mainSwiperApartment", {
   slidesPerView: 4,
   slidesPerGroup: 4,
   loop: true,
+  
       spaceBetween: 30,
       grabCursor: true,
       pagination: {
@@ -77,23 +79,41 @@ var swiper = new Swiper(".mainSwiperApartment", {
      }
 });
 
-var swiper = new Swiper(".servicesSwiper", {
+var swiperOffer = new Swiper(".servicesSwiper", {
   slidesPerView: 1,
   slidesPerGroup: 1,
   effect: "fade",
   loop: true,
-      spaceBetween: 30,
-      grabCursor: true,
-      pagination: {
-        el: ".services-swiper-pagination",
-        type: "fraction",
-      },
-
-      navigation: {
-        nextEl: ".services-next",
-        prevEl: ".services-prev",
+  spaceBetween: 30,
+  grabCursor: true,
+  pagination: {
+     el: ".services-swiper-pagination",
+     type: "custom", 
+     renderCustom: function (swiper, current, total) {
+       return current + ' из ' + total;
      }
+  },
+  navigation: {
+     nextEl: ".services-next",
+     prevEl: ".services-prev",
+  },
+   autoplay: {
+    delay: 5000, // Задаем интервал в 5 секунд
+    disableOnInteraction: false,
+ },
+
 });
+
+swiperOffer.on('slideChangeTransitionStart', function () {
+  var indicator = document.querySelector('.svg-indicator-indication-adaptive');
+  indicator.classList.remove('progress-animate__start');
+ });
+ 
+ // Добавляем класс progress-animate__start в начале нового перехода
+ swiperOffer.on('slideChangeTransitionEnd', function () {
+  var indicator = document.querySelector('.svg-indicator-indication-adaptive');
+  indicator.classList.add('progress-animate__start');
+ });
 
 
 
@@ -301,35 +321,100 @@ function toggleAccordion(element) {
  
  
 
- document.addEventListener('DOMContentLoaded', function() {
+//  document.addEventListener('DOMContentLoaded', function() {
+//   var sliders = document.querySelectorAll('.services__slider');
+ 
+//   sliders.forEach(function(slider) {
+//        slider.addEventListener('click', function() {
+//            sliders.forEach(function(s) {
+//                if (s !== slider) {
+//                   s.classList.remove('open');
+//                }
+//            });
+ 
+//            if (slider.classList.contains('open')) {
+//                slider.classList.remove('open');
+//            } else {
+//                slider.classList.add('open');
+//            }
+ 
+//            var isAnyOpen = Array.from(sliders).some(function(s) {
+//                return s.classList.contains('open');
+//            });
+ 
+  
+//            if (!isAnyOpen) {
+//                sliders[0].classList.add('open');
+//            }
+//        });
+//   });
+//  });
+
+document.addEventListener('DOMContentLoaded', function() {
   var sliders = document.querySelectorAll('.services__slider');
+  var currentIndex = 0; // Индекс текущего открытого слайдера
+   
+  // Инициализация первого слайда как открытого
+  sliders[currentIndex].classList.add('open');
+  var currentIndicator = sliders[currentIndex].querySelector('.svg-indicator-indication');
+  currentIndicator.classList.add('progress-animate__start');
  
+  // Функция для переключения слайдов
+  function switchSlider() {
+     sliders.forEach(function(slider, index) {
+       if (index === currentIndex) {
+         slider.classList.remove('open');
+         var prevIndicator = slider.querySelector('.svg-indicator-indication');
+         prevIndicator.classList.remove('progress-animate__start');
+       }
+     });
+ 
+     currentIndex = (currentIndex + 1) % sliders.length; // Переключение индекса слайдера
+     sliders[currentIndex].classList.add('open'); // Открытие следующего слайдера
+     var currentIndicator = sliders[currentIndex].querySelector('.svg-indicator-indication');
+     currentIndicator.classList.add('progress-animate__start');
+  }
+ 
+  // Автоматическое переключение слайдов каждые 5 секунд
+  var autoSwitchInterval = setInterval(switchSlider, 5000);
+ 
+  // Обработчик клика по слайдерам
   sliders.forEach(function(slider) {
-       slider.addEventListener('click', function() {
-           sliders.forEach(function(s) {
-               if (s !== slider) {
-                  s.classList.remove('open');
-               }
-           });
- 
-           if (slider.classList.contains('open')) {
-               slider.classList.remove('open');
-           } else {
-               slider.classList.add('open');
+     slider.addEventListener('click', function() {
+       // Если слайд уже открыт, переключаемся на следующий
+       if (slider.classList.contains('open')) {
+         switchSlider();
+       } else {
+         // Закрываем все слайды, кроме текущего
+         sliders.forEach(function(s) {
+           if (s !== slider) {
+             s.classList.remove('open');
+             var indicator = s.querySelector('.svg-indicator-indication');
+             indicator.classList.remove('progress-animate__start');
            }
+         });
  
-           // Проверка, что хотя бы один слайдер всегда открыт
-           var isAnyOpen = Array.from(sliders).some(function(s) {
-               return s.classList.contains('open');
-           });
+         slider.classList.add('open');
+         var indicator = slider.querySelector('.svg-indicator-indication');
+         indicator.classList.add('progress-animate__start');
  
-           // Если ни один слайдер не открыт, открываем первый
-           if (!isAnyOpen) {
-               sliders[0].classList.add('open');
-           }
-       });
+         // Обновление текущего индекса слайдера при клике
+         currentIndex = Array.from(sliders).indexOf(slider);
+       }
+ 
+       // Отключение автоматического переключения при клике
+       clearInterval(autoSwitchInterval);
+       // Перезапуск автоматического переключения после клика
+       autoSwitchInterval = setInterval(switchSlider, 5000);
+     });
   });
  });
+ 
+
+
+
+
+ 
 
  document.querySelector('.mainSwiper').style.display = 'none';
  document.querySelector('.mainSwiper').style.display = 'none';
@@ -386,26 +471,26 @@ var tariffCards = document.querySelectorAll('.tariffs__card');
 // Пройдемся по каждому элементу tariffs__card
 tariffCards.forEach(function(tariffCard, tariffIndex) {
     // Получаем все элементы input с классом custom-checkbox внутри текущего tariffs__card
-    var checkboxes = tariffCard.querySelectorAll('.custom-checkbox');
+    // Select all label elements that contain a checkbox
+var checkboxLabels = document.querySelectorAll('label.check-label');
 
-    // Пройдемся по каждому из этих элементов
-    checkboxes.forEach(function(checkbox, checkboxIndex) {
-        // Генерируем уникальный идентификатор, используя индексы tariffs__card и checkbox
-        var uniqueId = 'tariff' + tariffIndex + 'Checkbox' + checkboxIndex;
-        
-        // Применяем уникальный идентификатор к атрибуту id элемента input
-        checkbox.id = uniqueId;
-        
-        // Получаем следующий элемент после input, который должен быть label
-        var nextElement = checkbox.nextElementSibling;
-        
-        // Проверяем, является ли следующий элемент label
-        if (nextElement && nextElement.tagName.toLowerCase() === 'label') {
-            // Применяем уникальный идентификатор к атрибуту for label
-            nextElement.setAttribute('for', uniqueId);
-        }
-    });
+// Iterate over each label
+checkboxLabels.forEach(function(label, labelIndex) {
+    // Find the checkbox within the label
+    var checkbox = label.querySelector('input[type="checkbox"]');
+    
+    // Generate a unique ID for the checkbox
+    var uniqueId = 'checkbox' + labelIndex;
+    
+    // Assign the unique ID to the checkbox
+    checkbox.id = uniqueId;
+    
+    // Assign the unique ID to the 'for' attribute of the label
+    label.setAttribute('for', uniqueId);
 });
+
+});
+
 
 
 
@@ -543,3 +628,11 @@ $(document).ready(function() {
 
 });
 
+$(".check-label").on("click", function () {
+  let isChecked = $(this).children("input").prop("checked");
+  if (isChecked) {
+      $(this).find(".fakecheck").addClass("checked");
+  } else {
+      $(this).find(".fakecheck").removeClass("checked");
+  }
+});
