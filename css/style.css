@@ -1773,10 +1773,6 @@ main {
   cursor: pointer;
 }
 
-.check-label:hover .fakecheck {
-  border: 1px solid #fff;
-}
-
 .check-label input {
   position: absolute;
   z-index: -1;
@@ -1800,7 +1796,7 @@ main {
 }
 
 .fakecheck:hover .fakecheck {
-  border: 1px solid #fff;
+  border: 1px solid #FF6A00;
 }
 
 .fakecheck svg polyline {
